@@ -1,10 +1,13 @@
 package com.example.gdscproject.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -49,7 +52,6 @@ public class ActorsAdapter extends RecyclerView.Adapter<ActorsAdapter.ActorsView
         protected void publishResults(CharSequence constraint, FilterResults results) {
             actorList.clear();
             actorList.addAll((ArrayList<Actor>) results.values) ;
-
             notifyDataSetChanged();
         }
     } ;
@@ -57,26 +59,19 @@ public class ActorsAdapter extends RecyclerView.Adapter<ActorsAdapter.ActorsView
 
     List<Actor> actorList;
     List<Actor> allActorsList;
-    List<Actor> selectedActorsList ;
+    List<Actor> selectedActorsList = new ArrayList<>();
     ActorClicked listener ;
 
-    public ActorsAdapter(List<Actor> actorList, ActorClicked listener)
+    public ActorsAdapter(List<Actor> actorList, List<Actor> selectedActorsList ,ActorClicked listener)
     {
-        this.actorList = actorList ;
+        this.actorList = new ArrayList<>(actorList) ;
         this.allActorsList = new ArrayList<>(actorList);
-        selectedActorsList = new ArrayList<>() ;
+        this.selectedActorsList = new ArrayList<>(selectedActorsList) ;
         this.listener = listener ;
     }
 
 
-    public void addActor(Actor actor)
-    {
-        if (this.actorList == null) this.actorList = new ArrayList<>();
-        this.actorList.add(actor) ;
-        notifyDataSetChanged();
-    }
-
-    class ActorsViewHolder extends RecyclerView.ViewHolder
+    static class ActorsViewHolder extends RecyclerView.ViewHolder
     {
         private CircleImageView civ_actor_image ;
         private TextView tv_actor_name ;
@@ -96,9 +91,15 @@ public class ActorsAdapter extends RecyclerView.Adapter<ActorsAdapter.ActorsView
     @Override
     public @NotNull ActorsViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.actor_item, parent, false) ;
-        ActorsViewHolder viewHolder= new ActorsViewHolder(view) ;
+        ActorsViewHolder viewHolder= new ActorsViewHolder(view);
 
-        viewHolder.itemView.setOnClickListener(v -> listener.add_to_selected_actors(actorList.get(viewHolder.getAdapterPosition()).getActor_name()));
+        viewHolder.itemView.setOnClickListener(v ->
+        {
+           InputMethodManager mgr = (InputMethodManager) parent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+           mgr.hideSoftInputFromWindow(viewHolder.civ_actor_image.getWindowToken(), 0);
+            selectedActorsList.add(actorList.get(viewHolder.getAdapterPosition())) ;
+            listener.add_to_selected_actors(selectedActorsList) ;
+        });
 
 
         return viewHolder;
