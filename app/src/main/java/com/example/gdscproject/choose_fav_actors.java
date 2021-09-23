@@ -5,15 +5,24 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.gdscproject.adapters.ActorsAdapter;
 import com.example.gdscproject.models.Actor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class choose_fav_actors extends AppCompatActivity {
+public class choose_fav_actors extends AppCompatActivity implements ActorsAdapter.IActorSelected {
 
     RecyclerView rv_actors ,rv_selected_actors;
     ActorsAdapter adapter ;
@@ -29,7 +38,7 @@ public class choose_fav_actors extends AppCompatActivity {
         addDemoActors(actorList);
 
         rv_actors = findViewById(R.id.rv_actors) ;
-        adapter = new ActorsAdapter(actorList, new ArrayList<>()) ;
+        adapter = new ActorsAdapter(actorList, new ArrayList<>(), this) ;
         rv_actors.setAdapter(adapter);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3) ;
         rv_actors.setLayoutManager(gridLayoutManager);
@@ -50,9 +59,15 @@ public class choose_fav_actors extends AppCompatActivity {
 
         });
 
+        TextView btn_submit = findViewById(R.id.btn_confirm_adding_actors);
+
+
+
+
 
 
     }
+
 
     /**
      * This is a demo method for testing
@@ -71,4 +86,9 @@ public class choose_fav_actors extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onActorClick() {
+        searchView.setQuery("", false);
+        searchView.clearFocus();
+    }
 }

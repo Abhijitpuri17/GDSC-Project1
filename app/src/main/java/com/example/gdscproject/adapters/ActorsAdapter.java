@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ActorsAdapter extends RecyclerView.Adapter<ActorsAdapter.ActorsViewHolder> implements Filterable
 {
+
+
 
     @Override
     public Filter getFilter() {
@@ -57,12 +60,14 @@ public class ActorsAdapter extends RecyclerView.Adapter<ActorsAdapter.ActorsView
     List<Actor> actorList;
     List<Actor> allActorsList;
     List<Actor> selectedActorsList;
+    private final IActorSelected listener;
 
-    public ActorsAdapter(List<Actor> actorList, List<Actor> selectedActorsList )
+    public ActorsAdapter(List<Actor> actorList, List<Actor> selectedActorsList , IActorSelected listener)
     {
         this.actorList = new ArrayList<>(actorList) ;
         this.allActorsList = new ArrayList<>(actorList);
         this.selectedActorsList = new ArrayList<>(selectedActorsList) ;
+        this.listener = listener;
     }
 
 
@@ -87,19 +92,20 @@ public class ActorsAdapter extends RecyclerView.Adapter<ActorsAdapter.ActorsView
 
         viewHolder.itemView.setOnClickListener(v ->
         {
-            selectedActorsList.add(actorList.get(viewHolder.getAdapterPosition())) ;
             if (viewHolder.civ_actor_image.getBorderWidth() == 0) {
+                selectedActorsList.add(actorList.get(viewHolder.getAdapterPosition())) ;
                 viewHolder.civ_actor_image.setBorderWidth(15);
                 viewHolder.civ_actor_image.setBorderColor(Color.parseColor("#383838"));
 
                 viewHolder.itemView.setScaleX(0.75f);
                 viewHolder.itemView.setScaleY(0.75f);
             } else {
+                selectedActorsList.remove(actorList.get(viewHolder.getAdapterPosition())) ;
                 viewHolder.civ_actor_image.setBorderWidth(0);
                 viewHolder.itemView.setScaleY(1);
                 viewHolder.itemView.setScaleX(1);
             }
-
+            listener.onActorClick();
         });
 
         return viewHolder;
@@ -111,6 +117,16 @@ public class ActorsAdapter extends RecyclerView.Adapter<ActorsAdapter.ActorsView
         Actor actor = actorList.get(position) ;
         Glide.with(holder.civ_actor_image).load(actor.getActor_image_link()).into(holder.civ_actor_image) ;
         holder.tv_actor_name.setText(actor.getActor_name());
+
+        if (selectedActorsList.contains(actorList.get(position))) {
+            holder.civ_actor_image.setBorderWidth(15);
+            holder.civ_actor_image.setBorderColor(Color.parseColor("#383838"));
+            holder.itemView.setScaleX(0.75f);
+            holder.itemView.setScaleY(0.75f);
+        }
+
+
+
     }
 
     @Override
@@ -118,6 +134,9 @@ public class ActorsAdapter extends RecyclerView.Adapter<ActorsAdapter.ActorsView
         return actorList.size() ;
     }
 
+    public interface IActorSelected{
+        void onActorClick() ;
+    }
 
 }
 

@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
@@ -68,6 +69,7 @@ public class sign_up extends AppCompatActivity
         if (email.equals("") || password.equals("")) Toast.makeText(this, "Please enter username and password to continue", Toast.LENGTH_SHORT).show();
         else
         {
+
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(sign_up.this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -86,6 +88,8 @@ public class sign_up extends AppCompatActivity
                             }
                         }
                     });
+
+
         }
 
     }

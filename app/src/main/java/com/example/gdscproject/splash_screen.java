@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class splash_screen extends AppCompatActivity
 {
     ImageView splash_logo ;
@@ -47,7 +49,12 @@ public class splash_screen extends AppCompatActivity
 
     void start_main()
     {
-        Intent intent = new Intent(this, MainActivity.class) ;
-        startActivity(intent) ;
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            Intent intent = new Intent(this, choose_fav_actors.class) ;
+            startActivity(intent) ;
+        } else {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 }
