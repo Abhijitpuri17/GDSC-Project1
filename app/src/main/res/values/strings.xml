@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">GDSC project</string>
     <string name="forgot_password"><u>Forgot Password?</u>.</string>
+    <string name="terms_and_conditions"><u>Terms and Conditions</u></string>
 </resources>

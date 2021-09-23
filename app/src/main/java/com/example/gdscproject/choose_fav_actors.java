@@ -2,31 +2,23 @@ package com.example.gdscproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.gdscproject.adapters.ActorsAdapter;
-import com.example.gdscproject.adapters.SelectedActorsAdapter;
 import com.example.gdscproject.models.Actor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class choose_fav_actors extends AppCompatActivity implements ActorClicked{
+public class choose_fav_actors extends AppCompatActivity {
 
     RecyclerView rv_actors ,rv_selected_actors;
     ActorsAdapter adapter ;
     SearchView searchView;
-    SelectedActorsAdapter selectedActorsAdapter ;
-    List<Actor> actorList, selectedActorList ;
+    List<Actor> actorList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,38 +26,28 @@ public class choose_fav_actors extends AppCompatActivity implements ActorClicked
         setContentView(R.layout.activity_choose_fav_actors);
 
         actorList = new ArrayList<>() ;
-        selectedActorList = new ArrayList<>();
         addDemoActors(actorList);
 
         rv_actors = findViewById(R.id.rv_actors) ;
-        adapter = new ActorsAdapter(actorList, new ArrayList<>(), this) ;
+        adapter = new ActorsAdapter(actorList, new ArrayList<>()) ;
         rv_actors.setAdapter(adapter);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3) ;
         rv_actors.setLayoutManager(gridLayoutManager);
-
-        rv_selected_actors = findViewById(R.id.rv_selected_actors) ;
-        selectedActorsAdapter = new SelectedActorsAdapter(new ArrayList<>(selectedActorList), this) ;
-        rv_selected_actors.setAdapter(selectedActorsAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false) ;
-        rv_selected_actors.setLayoutManager(linearLayoutManager);
-
-
 
         searchView = findViewById(R.id.search_view_actors) ;
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(choose_fav_actors.this, "text submit Query", Toast.LENGTH_SHORT).show();
                 searchView.clearFocus();
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Toast.makeText(choose_fav_actors.this, "text change Query", Toast.LENGTH_SHORT).show();
                 adapter.getFilter().filter(newText);
                 return true;
             }
+
         });
 
 
@@ -88,28 +70,5 @@ public class choose_fav_actors extends AppCompatActivity implements ActorClicked
         actorList.add(new Actor("https://m.media-amazon.com/images/M/MV5BMTQ0OTE3MzQ2Nl5BMl5BanBnXkFtZTcwMDc2MDc1NA@@._V1_UX140_CR0,0,140,209_AL_.jpg", " Sidney Poitier")) ;
     }
 
-    /** This method is called from ActorsAdapter by clicking on an actor
-     * @param selected_actors
-     */
-    @Override
-    public void add_to_selected_actors(List<Actor> selected_actors) {
 
-         searchView.setQuery("", true);
-        searchView.clearFocus();
-        selectedActorList = new ArrayList<>(selected_actors) ;
-
-        List<Actor> actorList_new = new ArrayList<>();
-        for (Actor actor : actorList) {
-            if (!selected_actors.contains(actor)) actorList_new.add(actor) ;
-        }
-        adapter = new ActorsAdapter(actorList_new,selected_actors, this) ;
-        selectedActorList.clear();
-        selectedActorList.addAll(selected_actors);
-        selectedActorsAdapter  = new SelectedActorsAdapter(selected_actors, this) ;
-        rv_actors.setAdapter(adapter);
-        rv_selected_actors.setAdapter(selectedActorsAdapter);
-
-        adapter.notifyDataSetChanged();
-
-    }
 }

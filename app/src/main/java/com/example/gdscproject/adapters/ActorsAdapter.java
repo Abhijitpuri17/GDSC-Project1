@@ -1,20 +1,17 @@
 package com.example.gdscproject.adapters;
 
-import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.gdscproject.ActorClicked;
 import com.example.gdscproject.R;
 import com.example.gdscproject.models.Actor;
 
@@ -59,15 +56,13 @@ public class ActorsAdapter extends RecyclerView.Adapter<ActorsAdapter.ActorsView
 
     List<Actor> actorList;
     List<Actor> allActorsList;
-    List<Actor> selectedActorsList = new ArrayList<>();
-    ActorClicked listener ;
+    List<Actor> selectedActorsList;
 
-    public ActorsAdapter(List<Actor> actorList, List<Actor> selectedActorsList ,ActorClicked listener)
+    public ActorsAdapter(List<Actor> actorList, List<Actor> selectedActorsList )
     {
         this.actorList = new ArrayList<>(actorList) ;
         this.allActorsList = new ArrayList<>(actorList);
         this.selectedActorsList = new ArrayList<>(selectedActorsList) ;
-        this.listener = listener ;
     }
 
 
@@ -85,9 +80,6 @@ public class ActorsAdapter extends RecyclerView.Adapter<ActorsAdapter.ActorsView
     }
 
 
-
-
-
     @Override
     public @NotNull ActorsViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.actor_item, parent, false) ;
@@ -95,12 +87,20 @@ public class ActorsAdapter extends RecyclerView.Adapter<ActorsAdapter.ActorsView
 
         viewHolder.itemView.setOnClickListener(v ->
         {
-           InputMethodManager mgr = (InputMethodManager) parent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-           mgr.hideSoftInputFromWindow(viewHolder.civ_actor_image.getWindowToken(), 0);
             selectedActorsList.add(actorList.get(viewHolder.getAdapterPosition())) ;
-            listener.add_to_selected_actors(selectedActorsList) ;
-        });
+            if (viewHolder.civ_actor_image.getBorderWidth() == 0) {
+                viewHolder.civ_actor_image.setBorderWidth(15);
+                viewHolder.civ_actor_image.setBorderColor(Color.parseColor("#383838"));
 
+                viewHolder.itemView.setScaleX(0.75f);
+                viewHolder.itemView.setScaleY(0.75f);
+            } else {
+                viewHolder.civ_actor_image.setBorderWidth(0);
+                viewHolder.itemView.setScaleY(1);
+                viewHolder.itemView.setScaleX(1);
+            }
+
+        });
 
         return viewHolder;
     }
@@ -111,15 +111,12 @@ public class ActorsAdapter extends RecyclerView.Adapter<ActorsAdapter.ActorsView
         Actor actor = actorList.get(position) ;
         Glide.with(holder.civ_actor_image).load(actor.getActor_image_link()).into(holder.civ_actor_image) ;
         holder.tv_actor_name.setText(actor.getActor_name());
-
     }
 
     @Override
     public int getItemCount() {
         return actorList.size() ;
     }
-
-
 
 
 }

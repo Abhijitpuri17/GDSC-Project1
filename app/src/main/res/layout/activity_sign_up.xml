@@ -81,7 +81,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Terms and Conditions"
+        android:text="@string/terms_and_conditions"
         android:clickable="true"
         android:textColor="#006400"
         android:textSize="16sp"
@@ -121,14 +121,16 @@
             android:textColor="@color/white"/>
 
         <TextView
+            android:id="@+id/tv_go_to_sign_in"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
+            style="?android:attr/clickable"
             android:text="SIGN-IN"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:textColor="#228B22"
             android:textSize="20sp"
+            android:textStyle="bold"
             android:focusable="true" />
 
     </LinearLayout>

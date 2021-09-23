@@ -33,7 +33,7 @@ public class sign_in extends AppCompatActivity
     private final static int RC_SIGN_IN = 101 ;
     EditText et_email , et_password , et_username ;
     LinearLayout google_sign_in_btn ;
-    TextView btn_sign_in ;
+    TextView btn_sign_in , tv_go_to_sign_up;
     private FirebaseAuth mAuth ;
     ImageButton ib_back_arrow ;
     @Override
@@ -67,6 +67,9 @@ public class sign_in extends AppCompatActivity
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        tv_go_to_sign_up = findViewById(R.id.tv_go_to_sign_up);
+        tv_go_to_sign_up.setOnClickListener(v -> start_sign_up());
 
     }
 
@@ -154,6 +157,13 @@ public class sign_in extends AppCompatActivity
                     });
         }
 
+    }
+
+    void start_sign_up()
+    {
+        Intent intent = new Intent(this, sign_up.class) ;
+        startActivity(intent) ;
+        this.finish();
     }
 
 
