@@ -6,26 +6,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +30,7 @@ public class sign_up extends AppCompatActivity
     EditText et_email , et_password , et_username ;
     TextView btn_sign_up , tv_go_to_sign_in;
     FirebaseAuth mAuth ;
+    FirebaseFirestore db ;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -47,6 +41,8 @@ public class sign_up extends AppCompatActivity
         et_password = findViewById(R.id.et_password) ;
         et_username = findViewById(R.id.et_username) ;
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
 
 
 
@@ -79,6 +75,21 @@ public class sign_up extends AppCompatActivity
                                 Log.d("TAG", "createUserWithEmail:success");
                                 Toast.makeText(sign_up.this, "Success", Toast.LENGTH_SHORT).show();
                                 FirebaseUser user = mAuth.getCurrentUser();
+
+                                Map<String, Object> curr_user = new HashMap<>() ;
+                                curr_user.put("Email", user.getEmail()) ;
+                                curr_user.put("uid", user.getUid()) ;
+                                curr_user.put("name", username);
+                                db.collection("Users").add(curr_user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        Toast.makeText(sign_up.this, "SUCCESSSSSSS", Toast.LENGTH_SHORT).show();
+                                    }
+                                }) ;
+
+
+
+
                                 updateUI(user);
                             } else {
                                 // If sign in fails, display a message to the user.

@@ -3,6 +3,7 @@ package com.example.gdscproject;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -50,8 +51,14 @@ public class splash_screen extends AppCompatActivity
     void start_main()
     {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            Intent intent = new Intent(this, choose_fav_actors.class) ;
-            startActivity(intent) ;
+            SharedPreferences sharedPreferences = splash_screen.this.getSharedPreferences("fav_actors_selected_sp", MODE_PRIVATE) ;
+            if (sharedPreferences.getInt("is_selected", 0) == 0) {
+                Intent intent = new Intent(this, choose_fav_actors.class);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(this, HomeActivity.class);
+                startActivity(intent);
+            }
         } else {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);

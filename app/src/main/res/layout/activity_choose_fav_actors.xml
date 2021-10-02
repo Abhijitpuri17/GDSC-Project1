@@ -45,7 +45,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_actors"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="450dp"
         android:layout_marginTop="12dp" />
 
     <TextView
@@ -53,10 +53,10 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@drawable/custom_btn_layout"
-        android:layout_marginTop="32dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:text="CONFIRM"
         android:gravity="center"
         android:textColor="@color/white"

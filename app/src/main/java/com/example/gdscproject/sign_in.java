@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -19,12 +18,18 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class sign_in extends AppCompatActivity
 {
@@ -35,6 +40,7 @@ public class sign_in extends AppCompatActivity
     LinearLayout google_sign_in_btn ;
     TextView btn_sign_in , tv_go_to_sign_up;
     private FirebaseAuth mAuth ;
+    FirebaseFirestore db ;
     ImageButton ib_back_arrow ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,8 @@ public class sign_in extends AppCompatActivity
         et_email = findViewById(R.id.et_email) ;
         et_password = findViewById(R.id.et_password) ;
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
 
         /** Go to previous activity by back arrow
          */
@@ -122,6 +130,21 @@ public class sign_in extends AppCompatActivity
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("TAG", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+
+                            Map<String, Object> curr_user = new HashMap<>() ;
+                            curr_user.put("Email", user.getEmail()) ;
+                            curr_user.put("uid", user.getUid()) ;
+                            curr_user.put("name", user.getDisplayName());
+                            curr_user.put("imagelink", user.getPhotoUrl().toString()) ;
+                            db.collection("Users").add(curr_user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Toast.makeText(sign_in.this, "SUCCESSSSSSS", Toast.LENGTH_SHORT).show();
+                                }
+                            }) ;
+
+
+
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.

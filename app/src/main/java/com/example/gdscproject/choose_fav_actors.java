@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.SearchView;
@@ -60,6 +62,15 @@ public class choose_fav_actors extends AppCompatActivity implements ActorsAdapte
         });
 
         TextView btn_submit = findViewById(R.id.btn_confirm_adding_actors);
+        btn_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPreferences = choose_fav_actors.this.getSharedPreferences("fav_actors_selected_sp", MODE_PRIVATE) ;
+                sharedPreferences.edit().putInt("is_selected", 1).apply();
+                Intent intent = new Intent(choose_fav_actors.this, HomeActivity.class);
+                startActivity(intent) ;
+            }
+        });
 
 
 
@@ -90,5 +101,6 @@ public class choose_fav_actors extends AppCompatActivity implements ActorsAdapte
     public void onActorClick() {
         searchView.setQuery("", false);
         searchView.clearFocus();
+
     }
 }

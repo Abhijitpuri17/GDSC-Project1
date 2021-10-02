@@ -108,6 +108,7 @@ public class ActorsAdapter extends RecyclerView.Adapter<ActorsAdapter.ActorsView
             listener.onActorClick();
         });
 
+
         return viewHolder;
     }
 
@@ -118,13 +119,12 @@ public class ActorsAdapter extends RecyclerView.Adapter<ActorsAdapter.ActorsView
         Glide.with(holder.civ_actor_image).load(actor.getActor_image_link()).into(holder.civ_actor_image) ;
         holder.tv_actor_name.setText(actor.getActor_name());
 
-        if (selectedActorsList.contains(actorList.get(position))) {
+        if (selectedActorsList.contains(actorList.get(position)) && position != 0) {
             holder.civ_actor_image.setBorderWidth(15);
             holder.civ_actor_image.setBorderColor(Color.parseColor("#383838"));
             holder.itemView.setScaleX(0.75f);
             holder.itemView.setScaleY(0.75f);
         }
-
 
 
     }
