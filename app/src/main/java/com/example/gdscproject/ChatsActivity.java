@@ -5,13 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +48,7 @@ public class ChatsActivity extends AppCompatActivity
     ImageView iv_send_btn, iv_episode_image ;
     TextView tv_episode_name , tv_episode_description ;
     EditText et_message_text ;
+    LinearLayoutManager llm ;
     List<Message> messageList ;
     FirebaseFirestore db ;
     Intent intent ;
@@ -85,7 +90,20 @@ public class ChatsActivity extends AppCompatActivity
         et_message_text = findViewById(R.id.et_message) ;
         messageAdapter = new MessageAdapter(intent.getStringExtra("episode_id")) ;
         rv_messages.setAdapter(messageAdapter);
-        rv_messages.setLayoutManager(new LinearLayoutManager(this));
+
+        llm = new LinearLayoutManager(this) ;
+        rv_messages.setLayoutManager(llm);
+        new CountDownTimer(1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+               llm.scrollToPositionWithOffset(messageAdapter.getItemCount()-1, 1);
+            }
+        }.start() ;
 
         iv_send_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,7 +156,11 @@ public class ChatsActivity extends AppCompatActivity
                              message.put("created_at", time_now) ;
                              db.collection("Messages").add(message).addOnSuccessListener(documentReference -> {
                                  et_message_text.setText("");
-                                 Toast.makeText(ChatsActivity.this, "Success", Toast.LENGTH_SHORT).show();
+
+                                 InputMethodManager mgr = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE) ;
+                                 llm.scrollToPositionWithOffset(messageAdapter.getItemCount()-1, 1);
+                                 mgr.hideSoftInputFromWindow(et_message_text.getWindowToken(), 0) ;
+
                              }) ;
                              break;
                          }

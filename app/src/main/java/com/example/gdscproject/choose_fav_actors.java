@@ -85,15 +85,16 @@ public class choose_fav_actors extends AppCompatActivity implements ActorsAdapte
      */
     void addDemoActors(List<Actor> actorList)
     {
-        actorList.add(new Actor("https://m.media-amazon.com/images/M/MV5BMjAwNDU3MzcyOV5BMl5BanBnXkFtZTcwMjc0MTIxMw@@._V1_UY209_CR9,0,140,209_AL_.jpg", "Robert De Niro")) ;
-        actorList.add(new Actor("https://m.media-amazon.com/images/M/MV5BMTQ3OTY0ODk0M15BMl5BanBnXkFtZTYwNzE4Njc4._V1_UY209_CR5,0,140,209_AL_.jpg", "Jack Nicholson")) ;
-        actorList.add(new Actor("https://m.media-amazon.com/images/M/MV5BMTg3MDYyMDE5OF5BMl5BanBnXkFtZTcwNjgyNTEzNA@@._V1_UY209_CR65,0,140,209_AL_.jpg", "Marlon Brando")) ;
-        actorList.add(new Actor("https://m.media-amazon.com/images/M/MV5BMjE5NDU2Mzc3MV5BMl5BanBnXkFtZTcwNjAwNTE5OQ@@._V1_UY209_CR8,0,140,209_AL_.jpg", "Denzel Washington")) ;
-        actorList.add(new Actor("https://m.media-amazon.com/images/M/MV5BMTE5NTk4Mjc0OF5BMl5BanBnXkFtZTYwNzI0NDM2._V1_UY209_CR5,0,140,209_AL_.jpg", "Katharine Hepburn")) ;
-        actorList.add(new Actor("https://m.media-amazon.com/images/M/MV5BMTIyOTE3MDM5Ml5BMl5BanBnXkFtZTYwMzA2MTM2._V1_UY209_CR10,0,140,209_AL_.jpg", "Humphrey Bogart")) ;
-        actorList.add(new Actor("https://m.media-amazon.com/images/M/MV5BMTU4Mjk5MDExOF5BMl5BanBnXkFtZTcwOTU1MTMyMw@@._V1_UY209_CR4,0,140,209_AL_.jpg", "Meryl Streep")) ;
-        actorList.add(new Actor("https://m.media-amazon.com/images/M/MV5BMjE2NDY2NDc1Ml5BMl5BanBnXkFtZTcwNjAyMjkwOQ@@._V1_UY209_CR9,0,140,209_AL_.jpg", "Daniel Day-Lewis")) ;
-        actorList.add(new Actor("https://m.media-amazon.com/images/M/MV5BMTQ0OTE3MzQ2Nl5BMl5BanBnXkFtZTcwMDc2MDc1NA@@._V1_UX140_CR0,0,140,209_AL_.jpg", " Sidney Poitier")) ;
+        actorList.add(new Actor("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnImPW4s91ZjlXIsxV2nrHDRc6Ow-EuzDn1w&usqp=CAU", "Jitendra Kumar")) ;
+        actorList.add(new Actor("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSb3Me0agAUxj_vqbJuKq7Uadd4tlDXOBLs_A&usqp=CAU", "Navin Kasturia")) ;
+        actorList.add(new Actor("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4lZGhdpg6KelA9EKsXhTJ25WTYxG4i70Vew&usqp=CAU", "Badri Chavan")) ;
+        actorList.add(new Actor("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNLnBFZ0JIGx7MNjtnjlOhvBgYXsvXi0iv9g&usqp=CAU", "Pankaj Tripathi")) ;
+        actorList.add(new Actor("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6tpXiB_461OEMpZgurzjOAhAU9gMXL9fqLQ&usqp=CAU", "Nawazuddin Siddiqui")) ;
+        actorList.add(new Actor("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeTKD3bdHxgiFYLV1L--zF8IFE65m9u2UHLg&usqp=CAU", "Mithila Palkar")) ;
+        actorList.add(new Actor("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHAaZKDQs3Yvcwf-6LONwIGyFWI6eviDbbHg&usqp=CAU", "Barkha singh")) ;
+        actorList.add(new Actor("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSd0dg__IbxMiMurrmUiPba_EWgZn7IWVYepw&usqp=CAU", "Ahsas Channa")) ;
+        actorList.add(new Actor("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7F-vmS5aa6ZuQoqr77dN49K9VJl1E-BwNXg&usqp=CAU", "Manoj Bajpayee")) ;
+        actorList.add(new Actor("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSebkgK0lyKUaqDQ-RIqIB0qXJWJsffl5xaeg&usqp=CAU", "Pratik Gandhi")) ;
     }
 
 

@@ -50,7 +50,7 @@ public class splash_screen extends AppCompatActivity
 
     void start_main()
     {
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null && FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
             SharedPreferences sharedPreferences = splash_screen.this.getSharedPreferences("fav_actors_selected_sp", MODE_PRIVATE) ;
             if (sharedPreferences.getInt("is_selected", 0) == 0) {
                 Intent intent = new Intent(this, choose_fav_actors.class);

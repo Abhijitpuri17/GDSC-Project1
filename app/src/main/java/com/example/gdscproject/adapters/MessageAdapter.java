@@ -110,17 +110,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     static class MessageViewHolder extends RecyclerView.ViewHolder
     {
-        TextView tv_username, tv_createdAt, tv_message, tv_like_count ;
-        ImageView iv_user_image , iv_like ;
+        TextView tv_username, tv_message;
+        ImageView iv_user_image ;
 
         public MessageViewHolder(View itemView) {
             super(itemView);
             tv_username = itemView.findViewById(R.id.tv_username) ;
-            tv_createdAt = itemView.findViewById(R.id.tv_created_at);
             tv_message = itemView.findViewById(R.id.tv_message_content) ;
-            tv_like_count = itemView.findViewById(R.id.tv_like_count) ;
             iv_user_image = itemView.findViewById(R.id.iv_user_photo) ;
-            iv_like = itemView.findViewById(R.id.iv_like_button) ;
         }
     }
 }

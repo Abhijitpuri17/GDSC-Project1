@@ -87,7 +87,7 @@
             android:id="@+id/et_message"
             android:layout_width="0dp"
             android:layout_weight="4"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:hint="your message"
             android:textColor="@color/black"
             android:background="@drawable/custom_et_layout"

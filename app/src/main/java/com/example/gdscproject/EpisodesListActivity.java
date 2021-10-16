@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gdscproject.adapters.EpisodesAdapter;
@@ -32,6 +33,7 @@ public class EpisodesListActivity extends AppCompatActivity
     List<Episode> episodeList ;
     RecyclerView rv_episodes_list ;
     EpisodesAdapter episodesAdapter ;
+    TextView tv_show_name ;
     Intent intent ;
 
     @Override
@@ -41,44 +43,8 @@ public class EpisodesListActivity extends AppCompatActivity
         setContentView(R.layout.activity_episodes_list);
         intent = getIntent();
         episodeList = new ArrayList<>();
-//        getEpisodesDemo(episodeList);
-//
-//        for (int i = 0 ; i < episodeList.size(); i++) {
-//            Episode episode = episodeList.get(i);
-//
-//            Map<String, Object> episode_map = new HashMap<>();
-//
-//            episode_map.put("episode_name", episode.getEpisode_name());
-//            episode_map.put("episode_description", episode.getEpisode_description());
-//            episode_map.put("episode_image_link", episode.getEpisode_image_link());
-//            episode_map.put("episode_id", episode.getEpisode_id()) ;
-//
-//
-//            FirebaseFirestore.getInstance().collection("Shows").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                @Override
-//                public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
-//                    if (task.isSuccessful())  {
-//                        for (QueryDocumentSnapshot document : task.getResult()) {
-//                            if (document.getData().get("show_id").equals(intent.getStringExtra("show_id"))) {
-//
-//
-//                                FirebaseFirestore.getInstance().collection("Shows").document(document.getId()).collection("Episodes").add(episode_map).addOnSuccessListener(documentReference -> {
-//                Toast.makeText(EpisodesListActivity.this, "Success", Toast.LENGTH_SHORT).show();
-//            });
-//
-//
-//
-//                            }
-//
-//
-//                        }
-//
-//
-//                    }
-//                }
-//            }) ;
-//        }
-
+        tv_show_name = findViewById(R.id.tv_show_name) ;
+        tv_show_name.setText(intent.getStringExtra("show_name"));
 
         rv_episodes_list = findViewById(R.id.rv_episodes_list);
         episodesAdapter = new EpisodesAdapter(intent.getStringExtra("show_id"));

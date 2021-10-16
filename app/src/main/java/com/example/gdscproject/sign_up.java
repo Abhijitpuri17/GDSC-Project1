@@ -3,8 +3,10 @@ package com.example.gdscproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -19,6 +21,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -65,6 +69,14 @@ public class sign_up extends AppCompatActivity
         if (email.equals("") || password.equals("")) Toast.makeText(this, "Please enter username and password to continue", Toast.LENGTH_SHORT).show();
         else
         {
+            Dialog progress_dialog = new Dialog(this) ;
+            progress_dialog.setContentView(R.layout.progress_dialog);
+            progress_dialog.setCancelable(false);
+            progress_dialog.setCanceledOnTouchOutside(false);
+            progress_dialog.show();
+
+
+
 
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(sign_up.this, new OnCompleteListener<AuthResult>() {
@@ -83,18 +95,25 @@ public class sign_up extends AppCompatActivity
                                 db.collection("Users").add(curr_user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {
-                                        Toast.makeText(sign_up.this, "SUCCESSSSSSS", Toast.LENGTH_SHORT).show();
+
                                     }
                                 }) ;
 
+                                user.sendEmailVerification().addOnCompleteListener(task1 -> {
+                                    progress_dialog.dismiss();
 
+                                    if (task1.isSuccessful()) {
+                                        Toast.makeText(sign_up.this, "We have sent you an email. Verify your account to continue", Toast.LENGTH_SHORT).show() ;
+                                        FirebaseAuth.getInstance().signOut();
+                                        updateUI(user) ;
+                                    }
+                                }) ;
 
-
-                                updateUI(user);
                             } else {
+                                progress_dialog.dismiss();
                                 // If sign in fails, display a message to the user.
                                 Log.w("TAG", "createUserWithEmail:failure", task.getException());
-                                Toast.makeText(sign_up.this, "Authentication failed.",
+                                Toast.makeText(sign_up.this, task.getException().getLocalizedMessage(),
                                         Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -111,8 +130,14 @@ public class sign_up extends AppCompatActivity
         this.finish();
     }
     private void updateUI(Object o) {
-        Intent intent = new Intent(this, choose_fav_actors.class) ;
-        startActivity(intent) ;
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                start_sign_in();
+            }
+        }, 3500) ;
+
     }
 
 

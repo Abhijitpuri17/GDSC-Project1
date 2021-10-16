@@ -9,13 +9,18 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tv_show_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/diplomata"
+        android:gravity="center"
         android:text="Show Name"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        android:gravity="center"/>
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_episodes_list"

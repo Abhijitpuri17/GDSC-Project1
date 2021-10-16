@@ -41,7 +41,7 @@
         android:layout_marginTop="2dp"
         android:gravity="center"
         android:padding="16dp"
-        android:text="Watch your favourite movies and serials on only one platform. You can watch it \nanytime anywhere"
+        android:text="Chat about your favourite tv shows/web Series with others"
         android:textColor="@color/white"
         android:textSize="18sp"
 

@@ -105,6 +105,7 @@ public class TvShowsAdapter extends RecyclerView.Adapter<TvShowsAdapter.TvShowsV
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(parent.getContext(), EpisodesListActivity.class);
+                intent.putExtra("show_name", showsList.get(viewHolder.getAdapterPosition()).show_name) ;
                 intent.putExtra("show_id", showsList.get(viewHolder.getAdapterPosition()).id) ;
                 parent.getContext().startActivity(intent);
             }

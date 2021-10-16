@@ -3,9 +3,11 @@ package com.example.gdscproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -38,9 +40,10 @@ public class sign_in extends AppCompatActivity
     private final static int RC_SIGN_IN = 101 ;
     EditText et_email , et_password , et_username ;
     LinearLayout google_sign_in_btn ;
-    TextView btn_sign_in , tv_go_to_sign_up;
+    TextView btn_sign_in , tv_go_to_sign_up, tv_forgot_password;
     private FirebaseAuth mAuth ;
     FirebaseFirestore db ;
+    Dialog progress_dialog ;
     ImageButton ib_back_arrow ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,7 @@ public class sign_in extends AppCompatActivity
         btn_sign_in = findViewById(R.id.btn_sign_in);
         et_email = findViewById(R.id.et_email) ;
         et_password = findViewById(R.id.et_password) ;
+        tv_forgot_password = findViewById(R.id.tv_forgot_password) ;
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
@@ -79,6 +83,13 @@ public class sign_in extends AppCompatActivity
         tv_go_to_sign_up = findViewById(R.id.tv_go_to_sign_up);
         tv_go_to_sign_up.setOnClickListener(v -> start_sign_up());
 
+        tv_forgot_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(sign_in.this, ForgotPasswordActivity.class)) ;
+            }
+        });
+
     }
 
     @Override
@@ -86,7 +97,7 @@ public class sign_in extends AppCompatActivity
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        if(currentUser != null && currentUser.isEmailVerified()){
             updateUI(null);
         }
     }
@@ -105,6 +116,11 @@ public class sign_in extends AppCompatActivity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        progress_dialog = new Dialog(this) ;
+        progress_dialog.setContentView(R.layout.progress_dialog);
+        progress_dialog.setCancelable(false);
+        progress_dialog.setCanceledOnTouchOutside(false);
+        progress_dialog.show();
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -126,6 +142,9 @@ public class sign_in extends AppCompatActivity
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        progress_dialog.dismiss();
+
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("TAG", "signInWithCredential:success");
@@ -161,15 +180,27 @@ public class sign_in extends AppCompatActivity
         password = et_password.getText().toString();
         if (email.equals("") || password.equals("")) Toast.makeText(this, "Please enter username and password to continue", Toast.LENGTH_SHORT).show();
         else {
+
+            Dialog progress_dialog = new Dialog(this) ;
+            progress_dialog.setContentView(R.layout.progress_dialog);
+            progress_dialog.setCancelable(false);
+            progress_dialog.setCanceledOnTouchOutside(false);
+            progress_dialog.show();
+
+
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+                            progress_dialog.dismiss();
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d("TAG", "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
+
+                                if (user.isEmailVerified())
                                 updateUI(user);
+                                else Toast.makeText(sign_in.this, "Please verify your account by the emai we have sent to you" , Toast.LENGTH_SHORT).show();
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w("TAG", "createUserWithEmail:failure", task.getException());
